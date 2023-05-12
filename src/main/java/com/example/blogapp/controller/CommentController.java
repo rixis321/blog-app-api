@@ -2,6 +2,7 @@ package com.example.blogapp.controller;
 
 import com.example.blogapp.payload.CommentDto;
 import com.example.blogapp.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,8 @@ public class CommentController {
         this.commentService = commentService;
     }
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,@RequestBody CommentDto commentDto){
+    public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
+                                                    @Valid @RequestBody CommentDto commentDto){
 
         return new ResponseEntity<>(commentService.createComment(postId,commentDto), HttpStatus.CREATED);
     }
@@ -39,7 +41,7 @@ public class CommentController {
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public  ResponseEntity<CommentDto> updateComment(@PathVariable(value = "postId") Long postId,
                                                      @PathVariable(value = "commentId")  Long commentId,
-                                                     @RequestBody CommentDto commentDto){
+                                                     @Valid @RequestBody CommentDto commentDto){
 
         return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentDto),HttpStatus.OK);
     }
@@ -49,4 +51,6 @@ public class CommentController {
         commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment deleted successfully",HttpStatus.OK);
     }
+
+
 }
