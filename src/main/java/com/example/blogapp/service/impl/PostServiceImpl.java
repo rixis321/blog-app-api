@@ -6,22 +6,23 @@ import com.example.blogapp.payload.PostDto;
 import com.example.blogapp.payload.PostResponse;
 import com.example.blogapp.repository.PostRepository;
 import com.example.blogapp.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -91,12 +92,7 @@ public class PostServiceImpl implements PostService {
      * @return post dto object
      */
     private PostDto mapToDto(Post post){
-        PostDto postDto = new PostDto();
-        postDto.setId(post.getId());
-        postDto.setDescription(post.getDescription());
-        postDto.setContent(post.getContent());
-        postDto.setTitle(post.getTitle());
-        return postDto;
+        return modelMapper.map(post,PostDto.class);
     }
 
     /**
@@ -105,11 +101,6 @@ public class PostServiceImpl implements PostService {
      * @return post entity
      */
     private Post mapToEntity(PostDto postDto){
-        Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setDescription(postDto.getDescription());
-        post.setContent(postDto.getContent());
-
-        return post;
+        return modelMapper.map(postDto,Post.class);
     }
 }
