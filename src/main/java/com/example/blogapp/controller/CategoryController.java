@@ -38,4 +38,11 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,@PathVariable(name = "id") Long categoryId){
         return new ResponseEntity<>(categoryService.updateCategory(categoryDto, categoryId),HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable(name = "id") Long categoryId){
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.ok("Category deleted successfully");
+    }
 }
