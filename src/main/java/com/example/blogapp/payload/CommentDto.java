@@ -1,5 +1,6 @@
 package com.example.blogapp.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(
+        description = "CommentDto Model Information"
+)
 public class CommentDto {
     private long id;
     @NotEmpty(message = "Name should not be null or empty")
